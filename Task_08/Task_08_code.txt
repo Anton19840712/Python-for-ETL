@@ -1,0 +1,57 @@
+###  1 Create 3 Dataframes for csv files (sales, houses, employees)
+
+import pandas as pd
+import os
+saledf = pd.read_csv("sales.csv")
+empdf = pd.read_csv("employees.csv")
+houdf = pd.read_csv("houses.csv")
+
+### 2 Extract employee first name/last name from 3 to 10 rows from Employees
+
+empdsliced = pd.read_csv("employees.csv")[['EMP_FIRST_NAME','EMP_LAST_NAME']][3:11]
+empdsliced.head(9)
+
+### 3 Get amount of men/women among all employees (Please use function value_counts())
+
+empdf['EMP_GENDER'].value_counts()
+
+### 4 Fill empty cells by 0 in column “square” in houses dataframe
+
+houdf.dtypes
+houdf_fill = pd.read_csv("houses.csv")['SQUARE'].fillna(0)
+
+### 5 Create new column “unit_price” for price/1m2 (Please use the following formula: price/square) + 
+### round the result to 2 digits after point.
+
+houdf['UNIT_PRICE']  = round(houdf["PRICE"]/houdf["SQUARE"], 2)
+
+### 6 Sort houses dataframe by price descending and put the result to json file.
+
+houdf = pd.read_csv("houses.csv").sort_values(['PRICE'], ascending=False)
+import json
+houdf.to_json('D:\\houses.json', orient='records', lines=True)
+
+### 7 Please filter employees dataframe and find how much women with name ‘Vera’ we have
+
+##### first_var
+empdf[empdf['EMP_FIRST_NAME']== 'Vera'].shape[0]
+
+#### second_var
+empdf[empdf['EMP_FIRST_NAME']== 'Vera']['EMP_FIRST_NAME'].count()
+
+### 8 Please count how many houses do we have with square >= 100 m2, group by category and subcategory
+houdf.loc[houdf['SQUARE']>=100].groupby(['HOUSE_CATEGORY', 'HOUSE_SUBCATEGORY']).size().sum()
+
+### 9 Please update “sales_amount” column according to the following rule “sale_amount” = “sale_amount” + 
+### avg(“sale_amount”)*0.02 (You can try to use apply and lambda for it)
+
+dfs = pd.read_csv("sales.csv")
+dfs['SALEAMOUNT'] = dfs['SALEAMOUNT'] + dfs['SALEAMOUNT'].mean()*0.02
+
+### 10 Please find all houses that are unsold yet (exists in houses but does not exist in sales, join by house_id)
+
+left = pd.read_csv("sales.csv")
+right = pd.read_csv("houses.csv")
+unsold_df =left.merge(right,on='HOUSE_ID',how='outer',suffixes=('_x',''),
+                      indicator='Key').query("Key=='right_only'").loc[:,right.columns]
+df.head()

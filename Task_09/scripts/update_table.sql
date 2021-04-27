@@ -1,0 +1,1 @@
+UPDATE t_ordered_items SET + "".JOIN([f"{d}_INT = '{v}', " for d, v in dict_attr.items() if d.startswith('COLUMN')]) + "' INSERT_DATE =  DATE('now') " f" WHERE ORDERED_ITEMS_SURR_ID={str(dict_attr['ORDERED_ITEMS_SURR_ID'])}" + f" AND MEMBER = '{str(dict_attr['MEMBER'])}'"

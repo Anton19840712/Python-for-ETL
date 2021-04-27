@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM 't_ordered_items' WHERE INSERT_DATE = DATE();

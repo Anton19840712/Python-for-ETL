@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX columns_ordered_items ON t_ordered_items (ORDERED_ITEMS_SURR_ID, MEMBER);
